@@ -34,7 +34,7 @@ class Trie(object):
         # Increment the counter to indicate that we see this word once more
         node.counter += 1
 
-    def dfs(self, node, prefix, index):
+    def dfs(self, node, prefix):
         """Depth-first traversal of the trie
 
         Args:
@@ -44,14 +44,16 @@ class Trie(object):
         """
         # if node.is_end:
         #     self.output.append((prefix + [node.char], node.counter))
-        node_index = index
+        node_index = self.index
         for child in node.children.values():
-            index += 1
+            self.index += 1
             try:
-                self.output.append(f'{node.char}_{node_index} -> {child.char}_{index} [label={self.distances[node.char][child.char]}]')
+                self.output.append(f'{node.char}_{node_index} -> '
+                                   f'{child.char}_{self.index} '
+                                   f'[label={self.distances[node.char][child.char]}]')
             except KeyError:
                 pass
-            self.dfs(child, prefix + [node.char], index)
+            self.dfs(child, prefix + [node.char])
 
     def query(self, x):
         """Given an input (a prefix), retrieve all words stored in
@@ -61,6 +63,7 @@ class Trie(object):
         # Use a variable within the class to keep all possible outputs
         # As there can be more than one word with such prefix
         self.output = []
+        self.index = 0
         node = self.root
 
         # Check if the prefix is in the trie
@@ -72,7 +75,7 @@ class Trie(object):
         #         return []
 
         # Traverse the trie to get all candidates
-        self.dfs(node, x, 0)
+        self.dfs(node, x)
 
         # Sort the results in reverse order and return
         return self.output
