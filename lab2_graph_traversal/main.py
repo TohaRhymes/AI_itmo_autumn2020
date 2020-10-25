@@ -3,8 +3,8 @@ from traversals import dfs, bfs, iter_deep_dfs, bidir_search, \
     greedily_best_first_search, min_sum_estimation, informational_search
 from decision_tree import visualize, make_dot_file
 
-start = "Орел"
-end = "Рига"
+start = "Харьков"
+end = "Ниж.Новгород"
 
 print('__Неинформированный поиск__')
 
